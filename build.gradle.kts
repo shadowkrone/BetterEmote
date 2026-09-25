@@ -25,8 +25,8 @@ labyMod {
     addonInfo {
         namespace = "betteremote"
         displayName = "BetterEmote"
-        author = "ShadowKrone (based on EmoteChat by holybaechu)"
-        description = "Animated BetterTTV emotes in your Minecraft chat. Compatible with EmoteChat."
+        author = "ShadowKrone"
+        description = "Animated BetterTTV emotes in your Minecraft chat.."
         minecraftVersion = "1.19.4<*"
         version = rootProject.version.toString()
     }

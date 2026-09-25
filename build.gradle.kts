@@ -26,7 +26,7 @@ labyMod {
         namespace = "betteremote"
         displayName = "BetterEmote"
         author = "ShadowKrone"
-        description = "Animated BetterTTV emotes in your Minecraft chat.."
+        description = "Animated BetterTTV emotes in your Minecraft chat. - discord - discord.gg/FxWsjMRZrD"
         minecraftVersion = "1.19.4<*"
         version = rootProject.version.toString()
     }

@@ -1,0 +1,36 @@
+@import super();
+
+Emote {
+    background-color: rgba(70, 70, 70, 80);
+    border-radius: 5;
+    border-thickness: 0;
+
+    &:hover {
+      background-color: rgba(90, 90, 90, 100);
+    }
+
+    &:selected {
+      padding: 1 !important;
+      border: none !important;
+
+      background-color: rgba(100, 100, 100, 150) !important;
+
+      border-color: #008FE8 !important;
+      border-thickness: 1.5 !important;
+      border-softness: 0.5 !important;
+    }
+}
+
+.manage-container {
+  .add-container {
+    border-radius: 10;
+    background-color: rgba(50, 50, 50, 100);
+    filter: blur(5);
+
+    .search-container {
+      .search-button {
+        height: 20;
+      }
+    }
+  }
+}

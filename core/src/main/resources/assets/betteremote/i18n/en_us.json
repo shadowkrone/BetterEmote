@@ -1,0 +1,59 @@
+{
+  "betteremote": {
+    "notifications": {
+      "incompatWarn": {
+        "advancedchat": "BetterEmote doesn't work if \"Advanced Chat\" in \"LabyMod -> Ingame\" is disabled."
+      },
+      "error": {
+        "add": "This emote could not be added because the emote server rejected it. Please try another emote."
+      }
+    },
+    "settings": {
+      "name": "BetterEmote",
+      "enabled": {
+        "name": "Enabled"
+      },
+      "openEmotes": {
+        "name": "Edit Saved Emotes",
+        "add": {
+          "searchInput": "Search keyword or paste BTTV link...",
+          "searchButton": "Search",
+          "nameInput": "Name..."
+        }
+      },
+      "prefix": {
+        "name": "Emote Prefix",
+        "description": "e.g. when prefix is set to \":\", You should type \":emote_name:\"."
+      },
+      "emoteSize": {
+        "name": "Emote Size"
+      },
+      "emoteQuality": {
+        "name": "Emote Quality"
+      },
+      "renderDelay": {
+        "name": "Render Delay (Seconds)",
+        "description": "Increase this option if you notice any conflicts with other addons."
+      },
+      "animatedEmotes": {
+        "name": "Animated Emotes",
+        "description": "Renders animated emotes instead of static image.\nWARNING: This is experimental option. This option can cause high memory usage."
+      },
+      "doNotCheckForUnknownMessages": {
+        "name": "Do not check for unknown messages",
+        "description": "Turn this option on if you have issue with animated emotes, Such as animated emotes stuck at first frame."
+      },
+      "incompatWarn": {
+        "name": "Warn incompatible addons"
+      },
+      "header": {
+        "experimental": {
+          "name": "Experimental Options"
+        },
+        "others": {
+          "name": "Others"
+        }
+      }
+    }
+  }
+}

@@ -25,7 +25,7 @@ labyMod {
     }
 
     addonInfo {
-        namespace = "betteremote"
+        namespace = "emote"
         displayName = "BetterEmote"
         author = "ShadowKrone"
         description = "Animated BetterTTV emotes in your Minecraft chat. - discord - discord.gg/FxWsjMRZrD"

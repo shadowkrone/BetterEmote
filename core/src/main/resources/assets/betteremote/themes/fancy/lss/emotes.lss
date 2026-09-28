@@ -21,16 +21,8 @@ Emote {
     }
 }
 
-.manage-container {
-  .add-container {
-    border-radius: 10;
-    background-color: rgba(50, 50, 50, 100);
-    filter: blur(5);
-
-    .search-container {
-      .search-button {
-        height: 20;
-      }
-    }
-  }
+.menu-container {
+  border-radius: 10;
+  background-color: rgba(50, 50, 50, 100);
+  filter: blur(5);
 }

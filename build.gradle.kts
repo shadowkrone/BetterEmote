@@ -9,7 +9,9 @@ group = "xyz.holyb"
 version = providers.environmentVariable("VERSION").getOrElse("1.2.0")
 
 labyMod {
-    defaultPackageName = "xyz.holyb" //change this to your main package name (used by all modules)
+    // Must differ from EmoteChat's "xyz.holyb", otherwise both addons generate the same
+    // xyz.holyb.core.generated classes and LabyMod loads EmoteChat's copy for ours
+    defaultPackageName = "xyz.holyb.betteremote"
 
     minecraft {
         registerVersion(versions.toTypedArray()) {

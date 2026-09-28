@@ -1,6 +1,7 @@
-package xyz.holyb.emotechat.emote;
+package xyz.holyb.betteremote.emote;
 
 import com.google.gson.annotations.SerializedName;
+import net.labymod.api.client.component.Component;
 import java.util.Objects;
 
 public class Emote {
@@ -84,7 +85,7 @@ public class Emote {
     return emote;
   }
 
-  public String toString() {
-    return String.format("%s from %s", this.id, this.provider.provider);
+  public Component description() {
+    return Component.translatable("betteremote.emote.fromProvider", Component.text(this.id), Component.text(this.provider.provider));
   }
 }

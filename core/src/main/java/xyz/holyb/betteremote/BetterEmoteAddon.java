@@ -1,4 +1,4 @@
-package xyz.holyb.emotechat;
+package xyz.holyb.betteremote;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -6,12 +6,18 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.labymod.api.Laby;
 import net.labymod.api.addon.LabyAddon;
+import net.labymod.api.client.entity.player.tag.PositionType;
+import net.labymod.api.configuration.settings.Setting;
 import net.labymod.api.models.addon.annotation.AddonMain;
-import xyz.holyb.emotechat.bttv.BTTVEmote;
-import xyz.holyb.emotechat.emote.Emote;
-import xyz.holyb.emotechat.emote.EmoteProvider;
-import xyz.holyb.emotechat.listener.ChatMessageSendListener;
-import xyz.holyb.emotechat.listener.ChatReceiveListener;
+import net.labymod.api.util.concurrent.task.Task;
+import xyz.holyb.betteremote.bttv.BTTVEmote;
+import xyz.holyb.betteremote.emote.Emote;
+import xyz.holyb.betteremote.emote.EmoteProvider;
+import xyz.holyb.betteremote.listener.ChatMessageSendListener;
+import xyz.holyb.betteremote.listener.ChatReceiveListener;
+import xyz.holyb.betteremote.listener.EmoteMenuKeyListener;
+import xyz.holyb.betteremote.tag.RoleRegistry;
+import xyz.holyb.betteremote.tag.RoleTag;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,16 +25,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 @AddonMain
-public class EmoteChatAddon extends LabyAddon<EmoteChatConfiguration> {
-  private static EmoteChatAddon instance;
+public class BetterEmoteAddon extends LabyAddon<BetterEmoteConfiguration> {
+  private static BetterEmoteAddon instance;
 
-  public EmoteChatAddon(){
+  public BetterEmoteAddon(){
     instance = this;
   }
 
-  public static EmoteChatAddon get(){
+  public static BetterEmoteAddon get(){
     return instance;
   }
 
@@ -47,13 +55,42 @@ public class EmoteChatAddon extends LabyAddon<EmoteChatConfiguration> {
 
     this.registerListener(new ChatReceiveListener(this));
     this.registerListener(new ChatMessageSendListener(this));
+    this.registerListener(new EmoteMenuKeyListener(this));
+
+    RoleRegistry.load();
+    this.labyAPI().tagRegistry().register("betteremote_role", PositionType.ABOVE_NAME, new RoleTag(this));
 
     this.logger().info("Enabled BetterEmote v" + this.addonInfo().getVersion());
   }
 
   @Override
-  protected Class<EmoteChatConfiguration> configurationClass() {
-    return EmoteChatConfiguration.class;
+  protected Class<BetterEmoteConfiguration> configurationClass() {
+    return BetterEmoteConfiguration.class;
+  }
+
+  /**
+   * Opens the BetterEmote page in the LabyMod settings.
+   */
+  public void openSettings() {
+    // registerSettingCategory() adds the category to the core registry under the addon namespace
+    Setting settings = this.labyAPI().coreSettingRegistry().findSetting(this.addonInfo().getNamespace());
+    if (Objects.nonNull(settings)) this.labyAPI().showSetting(settings);
+  }
+
+  /**
+   * Registers a BTTV emote with the emote server and saves it under the given name.
+   * The callback runs on the render thread and gets null if the server rejected the emote.
+   */
+  public void addEmote(String name, String bttvId, Consumer<Emote> callback) {
+    // Registering the emote is a network request, so it must not block the render thread
+    CompletableFuture.supplyAsync(() -> EmoteProvider.addBTTV(bttvId)).thenAccept(serverEmote -> Task.builder(() -> {
+      if (Objects.nonNull(serverEmote)) {
+        EmoteProvider.CACHED_EMOTES.put(serverEmote.id, serverEmote);
+        this.configuration().getEmotes().put(name, serverEmote);
+        this.saveConfiguration();
+      }
+      callback.accept(serverEmote);
+    }).build().executeOnRenderThread());
   }
 
   /**

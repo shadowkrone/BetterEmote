@@ -1,4 +1,4 @@
-package xyz.holyb.emotechat.activity;
+package xyz.holyb.betteremote.activity;
 
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.lss.property.annotation.AutoWidget;
@@ -6,7 +6,7 @@ import net.labymod.api.client.gui.screen.Parent;
 import net.labymod.api.client.gui.screen.widget.SimpleWidget;
 import net.labymod.api.client.gui.screen.widget.widgets.ComponentWidget;
 import net.labymod.api.client.gui.screen.widget.widgets.renderer.IconWidget;
-import xyz.holyb.emotechat.emote.Emote;
+import xyz.holyb.betteremote.emote.Emote;
 
 @AutoWidget
 public class EmoteWidget extends SimpleWidget {
@@ -30,7 +30,7 @@ public class EmoteWidget extends SimpleWidget {
     nameWidget.addId("name");
     this.addChild(nameWidget);
 
-    ComponentWidget authorWidget = ComponentWidget.text(emote.toString());
+    ComponentWidget authorWidget = ComponentWidget.component(emote.description());
     authorWidget.addId("description");
     this.addChild(authorWidget);
   }

@@ -1,8 +1,8 @@
-package xyz.holyb.emotechat.gui;
+package xyz.holyb.betteremote.gui;
 
 import net.labymod.api.client.gui.icon.Icon;
-import xyz.holyb.emotechat.EmoteChatAddon;
-import xyz.holyb.emotechat.utils.ImageUtils;
+import xyz.holyb.betteremote.BetterEmoteAddon;
+import xyz.holyb.betteremote.utils.ImageUtils;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
@@ -128,7 +128,7 @@ public class AnimatedEmote {
       this.duration = Math.max(total, 1);
       this.frames = icons.toArray(Icon[]::new);
     } catch (Exception e) {
-      EmoteChatAddon.get().logger().warn("Failed to load animated emote " + url, e);
+      BetterEmoteAddon.get().logger().warn("Failed to load animated emote " + url, e);
     }
   }
 

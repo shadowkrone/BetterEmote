@@ -8,22 +8,55 @@
         "add": "This emote could not be added because the emote server rejected it. Please try another emote."
       }
     },
+    "emote": {
+      "fromProvider": "%s from %s",
+      "byUser": "%s by %s"
+    },
+    "tag": {
+      "owner": "Owner of BetterEmote",
+      "staff": "Staff of BetterEmote"
+    },
+    "menu": {
+      "title": "Your Emotes",
+      "empty": "You have no saved emotes yet. Search for one above to add it.",
+      "settings": "Settings",
+      "add": {
+        "searchInput": "Search keyword or paste BTTV link...",
+        "searchButton": "Search",
+        "nameInput": "Name..."
+      },
+      "status": {
+        "tooShort": "Type at least 3 characters to search.",
+        "searching": "Searching...",
+        "noResults": "No emotes found.",
+        "found": "Found %s emotes.",
+        "noSelection": "Search for an emote first.",
+        "invalidName": "The name can't contain spaces.",
+        "adding": "Adding %s...",
+        "added": "Added %s!",
+        "removed": "Removed %s.",
+        "rejected": "%s was rejected by the emote server. Please try another emote."
+      }
+    },
     "settings": {
       "name": "BetterEmote",
       "enabled": {
         "name": "Enabled"
       },
-      "openEmotes": {
-        "name": "Edit Saved Emotes",
-        "add": {
-          "searchInput": "Search keyword or paste BTTV link...",
-          "searchButton": "Search",
-          "nameInput": "Name..."
-        }
+      "openEmoteMenu": {
+        "name": "Emote Menu"
+      },
+      "menuKey": {
+        "name": "Emote Menu Key",
+        "description": "Opens a menu with all your saved emotes while ingame."
       },
       "prefix": {
         "name": "Emote Prefix",
         "description": "e.g. when prefix is set to \":\", You should type \":emote_name:\"."
+      },
+      "showRoleTags": {
+        "name": "Show Owner/Staff Tags",
+        "description": "Shows a tag above the owner and staff of BetterEmote."
       },
       "emoteSize": {
         "name": "Emote Size"
@@ -31,17 +64,9 @@
       "emoteQuality": {
         "name": "Emote Quality"
       },
-      "renderDelay": {
-        "name": "Render Delay (Seconds)",
-        "description": "Increase this option if you notice any conflicts with other addons."
-      },
       "animatedEmotes": {
         "name": "Animated Emotes",
         "description": "Renders animated emotes instead of static image.\nWARNING: This is experimental option. This option can cause high memory usage."
-      },
-      "doNotCheckForUnknownMessages": {
-        "name": "Do not check for unknown messages",
-        "description": "Turn this option on if you have issue with animated emotes, Such as animated emotes stuck at first frame."
       },
       "incompatWarn": {
         "name": "Warn incompatible addons"

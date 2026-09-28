@@ -1,14 +1,14 @@
-package xyz.holyb.emotechat.listener;
+package xyz.holyb.betteremote.listener;
 
 import net.labymod.api.event.Priority;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatMessageSendEvent;
-import xyz.holyb.emotechat.EmoteChatAddon;
+import xyz.holyb.betteremote.BetterEmoteAddon;
 
 public class ChatMessageSendListener {
-  private final EmoteChatAddon addon;
+  private final BetterEmoteAddon addon;
 
-  public ChatMessageSendListener(EmoteChatAddon addon){
+  public ChatMessageSendListener(BetterEmoteAddon addon){
       this.addon = addon;
   }
 

@@ -1,4 +1,4 @@
-package xyz.holyb.emotechat.bttv;
+package xyz.holyb.betteremote.bttv;
 
 public class BTTVUser {
   public String id;

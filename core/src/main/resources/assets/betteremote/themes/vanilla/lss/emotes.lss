@@ -1,38 +1,3 @@
-.emotes-container {
-  width: 100%;
-  height: 100%;
-
-  Scroll {
-      margin-bottom: 5;
-
-      .emotes-list {
-        left: 0;
-        top: 0;
-        height: fit-content;
-        space-between-entries: 2;
-        selectable: true;
-      }
-
-      Scrollbar {
-        left: 0;
-        top: 0;
-        width: 5;
-        height: 100%;
-        margin-left: 3;
-      }
-  }
-}
-
-.buttons {
-  width: 100%;
-  height: 20;
-  alignment-x: center;
-  bottom: 5;
-  layout: fill;
-  space-between-entries: 5;
-  margin-bottom: 5;
-}
-
 Emote {
   width: 100%;
   height: 24;
@@ -62,53 +27,116 @@ Emote {
   }
 }
 
-.manage-container {
-  top: 0;
+.menu-background {
   left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  clear-depth: true;
+  background-color: rgba(0, 0, 0, 160);
+}
 
-	.add-container {
-    width: 90%;
-    height: 90;
-    alignment-x: center;
-    alignment-y: center;
+.menu-container {
+  width: 70%;
+  height: 85%;
+  alignment-x: center;
+  alignment-y: center;
+  padding: 8;
+  space-between-entries: 4;
+  background-color: rgba(20, 20, 20, 150);
+}
 
-	  background-color: rgba(20, 20, 20, 150);
-	  padding: 10;
+.settings-container {
+  width: 100%;
+  height: 100%;
+  padding: 4;
+  space-between-entries: 4;
+}
 
-    space-between-entries: 3;
+.menu-title {
+  alignment-x: center;
+}
 
-    .search-container {
+.menu-search-row {
+  width: 100%;
+  height: 20;
+  space-between-entries: 3;
+
+  .menu-search-input {
+    width: 75%;
+  }
+  .menu-search-button {
+    width: 25%;
+    height: 20;
+  }
+}
+
+.menu-add-row {
+  width: 100%;
+  height: 20;
+  space-between-entries: 3;
+
+  .menu-preview {
+    width: 16;
+    height: 16;
+    top: 2;
+  }
+  .menu-results {
+    width: 35%;
+  }
+  .menu-name-input {
+    width: 30%;
+  }
+  .menu-add-button {
+    width: calc(35% - 25);
+    height: 20;
+  }
+}
+
+.menu-status {
+  alignment-x: center;
+}
+
+.menu-empty {
+  alignment-x: center;
+  margin-top: 10;
+}
+
+.menu-settings-button {
+  alignment-x: center;
+  width: 100;
+  height: 20;
+}
+
+.menu-emotes-scroll {
+  margin-top: 4;
+
+  .menu-emotes-list {
+    left: 0;
+    top: 0;
+    height: fit-content;
+    space-between-entries: 2;
+
+    .menu-emote-row {
       width: 100%;
-      height: 22;
-      alignment-x: center;
-      .text-input {
-        width: 75%;
+      height: 24;
+      space-between-entries: 3;
+
+      Emote {
+        width: calc(100% - 25);
       }
-      .search-button {
-        width: 25%;
+      .menu-remove-button {
+        width: 22;
         height: 22;
+        top: 1;
       }
     }
+  }
 
-    .results-container {
-      width: 100%;
-      height: 20;
-
-      .preview {
-        width: 16;
-        height: 16;
-      }
-
-      .results {
-        width: calc(100%-16);
-      }
-    }
-
-    .name-input {
-      width: 100%;
-    }
+  Scrollbar {
+    left: 0;
+    top: 0;
+    width: 5;
+    height: 100%;
+    margin-left: 3;
   }
 }

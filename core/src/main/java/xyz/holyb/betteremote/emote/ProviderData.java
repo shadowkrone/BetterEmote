@@ -1,4 +1,4 @@
-package xyz.holyb.emotechat.emote;
+package xyz.holyb.betteremote.emote;
 
 public class ProviderData {
   public String provider;

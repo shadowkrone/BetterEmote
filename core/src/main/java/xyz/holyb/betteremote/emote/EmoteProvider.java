@@ -1,9 +1,9 @@
-package xyz.holyb.emotechat.emote;
+package xyz.holyb.betteremote.emote;
 
 import com.google.gson.JsonObject;
 import net.labymod.api.util.io.web.request.Request;
 import net.labymod.api.util.io.web.request.Response;
-import xyz.holyb.emotechat.EmoteChatAddon;
+import xyz.holyb.betteremote.BetterEmoteAddon;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -56,7 +56,7 @@ public class EmoteProvider {
 
     // Words that only look like emote codes (e.g. "mcMMO") end up here, so this isn't a warning
     if (response.hasException()) {
-      EmoteChatAddon.get().logger().debug("Could not fetch emote from " + url + ": " + response.exception().getMessage());
+      BetterEmoteAddon.get().logger().debug("Could not fetch emote from " + url + ": " + response.exception().getMessage());
       return null;
     }
 
@@ -80,7 +80,7 @@ public class EmoteProvider {
         .executeSync();
 
     if (response.hasException()) {
-      EmoteChatAddon.get().logger().warn("Failed to add emote at " + url, response.exception());
+      BetterEmoteAddon.get().logger().warn("Failed to add emote at " + url, response.exception());
       return null;
     }
 

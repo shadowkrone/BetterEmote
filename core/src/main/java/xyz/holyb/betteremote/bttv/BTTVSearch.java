@@ -1,4 +1,4 @@
-package xyz.holyb.emotechat.bttv;
+package xyz.holyb.betteremote.bttv;
 
 import com.google.gson.reflect.TypeToken;
 import net.labymod.api.util.io.web.request.Request;

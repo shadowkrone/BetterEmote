@@ -1,4 +1,4 @@
-package xyz.holyb.emotechat.listener;
+package xyz.holyb.betteremote.listener;
 
 import net.labymod.api.client.chat.ChatMessage;
 import net.labymod.api.client.component.Component;
@@ -10,10 +10,10 @@ import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.event.Subscribe;
 import net.labymod.api.event.client.chat.ChatReceiveEvent;
 import net.labymod.api.util.concurrent.task.Task;
-import xyz.holyb.emotechat.EmoteChatAddon;
-import xyz.holyb.emotechat.emote.Emote;
-import xyz.holyb.emotechat.emote.EmoteProvider;
-import xyz.holyb.emotechat.gui.AnimatedEmote;
+import xyz.holyb.betteremote.BetterEmoteAddon;
+import xyz.holyb.betteremote.emote.Emote;
+import xyz.holyb.betteremote.emote.EmoteProvider;
+import xyz.holyb.betteremote.gui.AnimatedEmote;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,9 +30,9 @@ public class ChatReceiveListener {
     return thread;
   });
 
-  private final EmoteChatAddon addon;
+  private final BetterEmoteAddon addon;
 
-  public ChatReceiveListener(EmoteChatAddon addon) {
+  public ChatReceiveListener(BetterEmoteAddon addon) {
     this.addon = addon;
   }
 

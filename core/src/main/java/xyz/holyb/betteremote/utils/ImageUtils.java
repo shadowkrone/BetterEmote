@@ -1,4 +1,4 @@
-package xyz.holyb.emotechat.utils;
+package xyz.holyb.betteremote.utils;
 
 import javax.imageio.ImageIO;
 import javax.imageio.metadata.IIOMetadataNode;

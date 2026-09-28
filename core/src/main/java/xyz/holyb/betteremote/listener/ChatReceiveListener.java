@@ -116,7 +116,7 @@ public class ChatReceiveListener {
     if (addon.labyAPI().config().ingame().advancedChat().enabled().get()) return;
 
     addon.labyAPI().minecraft().chatExecutor().displayClientMessage(
-        Component.translatable("betteremote.notifications.incompatWarn.advancedchat").color(NamedTextColor.RED)
+        Component.translatable("emote.notifications.incompatWarn.advancedchat").color(NamedTextColor.RED)
     );
   }
 

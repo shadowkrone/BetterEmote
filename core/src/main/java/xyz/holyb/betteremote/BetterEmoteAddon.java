@@ -41,6 +41,11 @@ public class BetterEmoteAddon extends LabyAddon<BetterEmoteConfiguration> {
   }
 
   @Override
+  protected void preConfigurationLoad() {
+    migrateOldNamespaceConfig();
+  }
+
+  @Override
   protected void enable() {
     importEmoteChatEmotes();
 
@@ -91,6 +96,26 @@ public class BetterEmoteAddon extends LabyAddon<BetterEmoteConfiguration> {
       }
       callback.accept(serverEmote);
     }).build().executeOnRenderThread());
+  }
+
+  /**
+   * The addon was published as "betteremote" before its namespace became "emote". Copies the
+   * old settings over once, so players keep their emotes and settings after updating.
+   */
+  private void migrateOldNamespaceConfig() {
+    Path configs = Path.of(Laby.labyAPI().labyModLoader().getGameDirectory().toString(), "labymod-neo", "configs");
+    Path oldFile = configs.resolve("betteremote").resolve("settings.json");
+    // Runs before the addon info is guaranteed to be available, so the namespace is spelled out
+    Path newFile = configs.resolve("emote").resolve("settings.json");
+    if (!Files.exists(oldFile) || Files.exists(newFile)) return;
+
+    try {
+      Files.createDirectories(newFile.getParent());
+      Files.copy(oldFile, newFile);
+      this.logger().info("Migrated settings from the old betteremote namespace");
+    } catch (Exception e) {
+      this.logger().warn("Could not migrate settings from the old betteremote namespace: " + e.getMessage());
+    }
   }
 
   /**

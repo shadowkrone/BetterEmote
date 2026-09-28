@@ -68,7 +68,7 @@ public class EmoteMenuActivity extends Activity {
       // Darkens the game behind the menu, like the LabyMod settings do
       this.document().addChild(new DivWidget().addId("menu-background"));
 
-      ComponentWidget title = ComponentWidget.i18n("betteremote.menu.title").addId("menu-title");
+      ComponentWidget title = ComponentWidget.i18n("emote.menu.title").addId("menu-title");
       container.addContent(title);
     }
 
@@ -81,7 +81,7 @@ public class EmoteMenuActivity extends Activity {
     emotes.putAll(this.addon.configuration().getEmotes());
 
     if (emotes.isEmpty()) {
-      container.addFlexibleContent(ComponentWidget.i18n("betteremote.menu.empty").addId("menu-empty"));
+      container.addFlexibleContent(ComponentWidget.i18n("emote.menu.empty").addId("menu-empty"));
     } else {
       VerticalListWidget<HorizontalListWidget> emotesList = new VerticalListWidget<HorizontalListWidget>().addId("menu-emotes-list");
       String prefix = this.addon.configuration().prefix().get();
@@ -107,7 +107,7 @@ public class EmoteMenuActivity extends Activity {
     }
 
     if (!this.fromSettings) {
-      ButtonWidget settingsButton = ButtonWidget.i18n("betteremote.menu.settings").addId("menu-settings-button");
+      ButtonWidget settingsButton = ButtonWidget.i18n("emote.menu.settings").addId("menu-settings-button");
       settingsButton.setActionListener(this.addon::openSettings);
       container.addContent(settingsButton);
     }
@@ -119,7 +119,7 @@ public class EmoteMenuActivity extends Activity {
     this.addon.configuration().getEmotes().remove(name);
     this.addon.saveConfiguration();
 
-    this.status = Component.translatable("betteremote.menu.status.removed", NamedTextColor.GREEN, Component.text(name));
+    this.status = Component.translatable("emote.menu.status.removed", NamedTextColor.GREEN, Component.text(name));
     this.reload();
   }
 
@@ -127,10 +127,10 @@ public class EmoteMenuActivity extends Activity {
     HorizontalListWidget searchRow = new HorizontalListWidget().addId("menu-search-row");
 
     TextFieldWidget searchInput = new TextFieldWidget().addId("menu-search-input");
-    searchInput.placeholder(Component.translatable("betteremote.menu.add.searchInput"));
+    searchInput.placeholder(Component.translatable("emote.menu.add.searchInput"));
     searchRow.addEntry(searchInput);
 
-    ButtonWidget searchButton = ButtonWidget.i18n("betteremote.menu.add.searchButton").addId("menu-search-button");
+    ButtonWidget searchButton = ButtonWidget.i18n("emote.menu.add.searchButton").addId("menu-search-button");
     searchRow.addEntry(searchButton);
 
     container.addContent(searchRow);
@@ -146,7 +146,7 @@ public class EmoteMenuActivity extends Activity {
     addRow.addEntry(results);
 
     TextFieldWidget nameInput = new TextFieldWidget().addId("menu-name-input");
-    nameInput.placeholder(Component.translatable("betteremote.menu.add.nameInput"));
+    nameInput.placeholder(Component.translatable("emote.menu.add.nameInput"));
     addRow.addEntry(nameInput);
 
     ButtonWidget addButton = ButtonWidget.i18n("labymod.ui.button.add").addId("menu-add-button");
@@ -156,11 +156,11 @@ public class EmoteMenuActivity extends Activity {
 
     Runnable search = () -> {
       if (searchInput.getText().trim().length() < 3) {
-        this.setStatus(Component.translatable("betteremote.menu.status.tooShort", NamedTextColor.RED));
+        this.setStatus(Component.translatable("emote.menu.status.tooShort", NamedTextColor.RED));
         return;
       }
 
-      this.setStatus(Component.translatable("betteremote.menu.status.searching", NamedTextColor.GRAY));
+      this.setStatus(Component.translatable("emote.menu.status.searching", NamedTextColor.GRAY));
       BTTVSearch.search(searchInput.getText(), found -> Task.builder(() -> {
         results.clear();
         for (BTTVEmote emote : found) {
@@ -168,13 +168,13 @@ public class EmoteMenuActivity extends Activity {
         }
 
         if (found.isEmpty()) {
-          this.setStatus(Component.translatable("betteremote.menu.status.noResults", NamedTextColor.RED));
+          this.setStatus(Component.translatable("emote.menu.status.noResults", NamedTextColor.RED));
           return;
         }
 
         results.setSelected(found.get(0));
         preview.icon().set(Icon.url(found.get(0).getImageURL(1)));
-        this.setStatus(Component.translatable("betteremote.menu.status.found", NamedTextColor.GRAY,
+        this.setStatus(Component.translatable("emote.menu.status.found", NamedTextColor.GRAY,
             Component.text(found.size())));
       }).build().executeOnRenderThread());
     };
@@ -184,27 +184,27 @@ public class EmoteMenuActivity extends Activity {
     addButton.setActionListener(() -> {
       BTTVEmote selected = results.getSelected();
       if (Objects.isNull(selected)) {
-        this.setStatus(Component.translatable("betteremote.menu.status.noSelection", NamedTextColor.RED));
+        this.setStatus(Component.translatable("emote.menu.status.noSelection", NamedTextColor.RED));
         return;
       }
 
       // Without a name, the emote keeps its BTTV code
       String name = nameInput.getText().trim().isEmpty() ? selected.code : nameInput.getText().trim();
       if (name.contains(" ")) {
-        this.setStatus(Component.translatable("betteremote.menu.status.invalidName", NamedTextColor.RED));
+        this.setStatus(Component.translatable("emote.menu.status.invalidName", NamedTextColor.RED));
         return;
       }
 
       addButton.setEnabled(false);
-      this.setStatus(Component.translatable("betteremote.menu.status.adding", NamedTextColor.GRAY, Component.text(name)));
+      this.setStatus(Component.translatable("emote.menu.status.adding", NamedTextColor.GRAY, Component.text(name)));
       this.addon.addEmote(name, selected.id, serverEmote -> {
         if (Objects.isNull(serverEmote)) {
           addButton.setEnabled(true);
-          this.setStatus(Component.translatable("betteremote.menu.status.rejected", NamedTextColor.RED, Component.text(name)));
+          this.setStatus(Component.translatable("emote.menu.status.rejected", NamedTextColor.RED, Component.text(name)));
           return;
         }
 
-        this.status = Component.translatable("betteremote.menu.status.added", NamedTextColor.GREEN, Component.text(name));
+        this.status = Component.translatable("emote.menu.status.added", NamedTextColor.GREEN, Component.text(name));
         this.reload();
       });
     });

@@ -19,7 +19,7 @@ public class BTTVEmote {
   public Component displayName() {
     return this.user == null
         ? Component.text(this.code)
-        : Component.translatable("betteremote.emote.byUser", Component.text(this.code), Component.text(this.user.name));
+        : Component.translatable("emote.emote.byUser", Component.text(this.code), Component.text(this.user.name));
   }
 
   // Dropdowns would show toString() otherwise, which can't be translated

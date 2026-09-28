@@ -86,6 +86,6 @@ public class Emote {
   }
 
   public Component description() {
-    return Component.translatable("betteremote.emote.fromProvider", Component.text(this.id), Component.text(this.provider.provider));
+    return Component.translatable("emote.emote.fromProvider", Component.text(this.id), Component.text(this.provider.provider));
   }
 }

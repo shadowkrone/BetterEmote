@@ -4,8 +4,8 @@ import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
 
 public enum Role {
-  OWNER(Component.translatable("betteremote.tag.owner", NamedTextColor.GOLD)),
-  STAFF(Component.translatable("betteremote.tag.staff", NamedTextColor.AQUA));
+  OWNER(Component.translatable("emote.tag.owner", NamedTextColor.GOLD)),
+  STAFF(Component.translatable("emote.tag.staff", NamedTextColor.AQUA));
 
   // Built once, because name tags are drawn every frame
   private final Component component;

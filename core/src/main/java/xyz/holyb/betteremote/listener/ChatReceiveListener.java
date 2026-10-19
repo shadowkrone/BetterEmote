@@ -4,6 +4,7 @@ import net.labymod.api.client.chat.ChatMessage;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.TextComponent;
 import net.labymod.api.client.component.TranslatableComponent;
+import net.labymod.api.client.component.event.HoverEvent;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.component.format.Style;
 import net.labymod.api.client.gui.icon.Icon;
@@ -13,7 +14,6 @@ import net.labymod.api.util.concurrent.task.Task;
 import xyz.holyb.betteremote.BetterEmoteAddon;
 import xyz.holyb.betteremote.emote.Emote;
 import xyz.holyb.betteremote.emote.EmoteProvider;
-import xyz.holyb.betteremote.gui.AnimatedEmote;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,16 +38,17 @@ public class ChatReceiveListener {
 
   private Component createEmoteComponent(Emote serverEmote) {
     int quality = addon.configuration().emoteQuality().get();
-    Icon icon = serverEmote.animated && addon.configuration().animatedEmotes().get()
-        ? AnimatedEmote.icon(serverEmote.getImageURL(quality), serverEmote.getStaticImageURL(quality))
-        : Icon.url(serverEmote.getStaticImageURL(quality));
+    Icon icon = serverEmote.icon(quality);
+
+    // Hovering shows the name, shift-click puts the emote into the chat input (vanilla insertion)
+    Style style = Style.builder().color(NamedTextColor.WHITE).build()
+        .hoverEvent(HoverEvent.showText(Component.text(serverEmote.name())
+            .append(Component.newline())
+            .append(Component.translatable("emote.chat.hint", NamedTextColor.GRAY))))
+        .insertion(serverEmote.id + " ");
 
     return Component.empty().setChildren(List.of(
-        Component.icon(
-            icon,
-            Style.builder().color(NamedTextColor.WHITE).build(),
-            addon.configuration().emoteSize().get()
-        ),
+        Component.icon(icon, style, addon.configuration().emoteSize().get()),
         Component.text(" ")
     ));
   }

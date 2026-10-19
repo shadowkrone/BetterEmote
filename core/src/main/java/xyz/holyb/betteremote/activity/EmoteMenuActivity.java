@@ -1,5 +1,6 @@
 package xyz.holyb.betteremote.activity;
 
+import net.labymod.api.Textures.SpriteCommon;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.client.component.format.NamedTextColor;
 import net.labymod.api.client.gui.icon.Icon;
@@ -22,6 +23,8 @@ import xyz.holyb.betteremote.BetterEmoteAddon;
 import xyz.holyb.betteremote.bttv.BTTVEmote;
 import xyz.holyb.betteremote.bttv.BTTVSearch;
 import xyz.holyb.betteremote.emote.Emote;
+import xyz.holyb.betteremote.emote.EmoteProvider;
+import xyz.holyb.betteremote.site.WebsiteLogin;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -38,6 +41,9 @@ public class EmoteMenuActivity extends Activity {
 
   private final BetterEmoteAddon addon;
   private final boolean fromSettings;
+
+  // The emote whose row shows the rename field, kept so it survives reloads
+  private String renaming;
 
   // Kept on the activity so the result of adding an emote survives the reload afterwards
   private Component status = Component.empty();
@@ -84,35 +90,131 @@ public class EmoteMenuActivity extends Activity {
       container.addFlexibleContent(ComponentWidget.i18n("emote.menu.empty").addId("menu-empty"));
     } else {
       VerticalListWidget<HorizontalListWidget> emotesList = new VerticalListWidget<HorizontalListWidget>().addId("menu-emotes-list");
-      String prefix = this.addon.configuration().prefix().get();
-
-      emotes.forEach((name, emote) -> {
-        HorizontalListWidget row = new HorizontalListWidget().addId("menu-emote-row");
-
-        EmoteWidget emoteWidget = new EmoteWidget(name, emote);
-        if (!this.fromSettings) {
-          // Clicking an emote opens the chat with its code, ready to send
-          emoteWidget.setActionListener(() -> this.addon.labyAPI().minecraft().openChat(prefix + name + prefix + " "));
-        }
-        row.addEntry(emoteWidget);
-
-        ButtonWidget removeButton = ButtonWidget.deleteButton().addId("menu-remove-button");
-        removeButton.setActionListener(() -> this.removeEmote(name));
-        row.addEntry(removeButton);
-
-        emotesList.addChild(row);
-      });
+      emotes.forEach((name, emote) -> emotesList.addChild(
+          name.equals(this.renaming) ? this.renameRow(name) : this.emoteRow(name, emote)));
 
       container.addFlexibleContent(new ScrollWidget(emotesList).addId("menu-emotes-scroll"));
     }
 
+    HorizontalListWidget buttons = new HorizontalListWidget().addId("menu-buttons");
+
+    // Uploading and browsing emotes happens on the website, the button logs the player in there
+    ButtonWidget websiteButton = ButtonWidget.i18n("emote.menu.website.button").addId("menu-website-button");
+    websiteButton.setActionListener(() -> {
+      websiteButton.setEnabled(false);
+      WebsiteLogin.openWebsite(this::setStatus, () -> websiteButton.setEnabled(true));
+    });
+    buttons.addEntry(websiteButton);
+
     if (!this.fromSettings) {
+      // Emotes uploaded on the website can be saved right here, without opening the browser
+      ButtonWidget browseButton = ButtonWidget.i18n("emote.menu.browse").addId("menu-browse-button");
+      browseButton.setActionListener(() -> this.addon.labyAPI().minecraft().minecraftWindow().displayScreen(new SiteEmotesActivity()));
+      buttons.addEntry(browseButton);
+
       ButtonWidget settingsButton = ButtonWidget.i18n("emote.menu.settings").addId("menu-settings-button");
       settingsButton.setActionListener(this.addon::openSettings);
-      container.addContent(settingsButton);
+      buttons.addEntry(settingsButton);
     }
+    container.addContent(buttons);
+
+    this.initializeCodeRow(container);
 
     this.document().addChild(container);
+  }
+
+  // The menu is only for managing emotes, they are picked from the panel next to the chat input
+  private HorizontalListWidget emoteRow(String name, Emote emote) {
+    HorizontalListWidget row = new HorizontalListWidget().addId("menu-emote-row");
+    row.addEntry(new EmoteWidget(name, emote));
+
+    ButtonWidget renameButton = ButtonWidget.icon(SpriteCommon.EDIT).addId("menu-rename-button");
+    renameButton.setHoverComponent(Component.translatable("emote.menu.rename.button"));
+    renameButton.setActionListener(() -> {
+      this.renaming = name;
+      this.reload();
+    });
+    row.addEntry(renameButton);
+
+    ButtonWidget removeButton = ButtonWidget.deleteButton().addId("menu-remove-button");
+    removeButton.setActionListener(() -> this.removeEmote(name));
+    row.addEntry(removeButton);
+
+    return row;
+  }
+
+  private HorizontalListWidget renameRow(String name) {
+    HorizontalListWidget row = new HorizontalListWidget().addId("menu-emote-row");
+
+    TextFieldWidget nameInput = new TextFieldWidget().addId("menu-rename-input");
+    nameInput.setText(name);
+    nameInput.setFocused(true);
+    row.addEntry(nameInput);
+
+    Runnable confirm = () -> this.renameEmote(name, nameInput.getText().trim());
+    nameInput.submitHandler(text -> confirm.run());
+
+    // Text instead of icons, the check mark sprite shows up as an X on current LabyMod versions
+    ButtonWidget confirmButton = ButtonWidget.i18n("emote.menu.rename.save").addId("menu-rename-confirm");
+    confirmButton.setActionListener(confirm);
+    row.addEntry(confirmButton);
+
+    ButtonWidget cancelButton = ButtonWidget.i18n("emote.menu.rename.cancel").addId("menu-rename-cancel");
+    cancelButton.setActionListener(() -> {
+      this.renaming = null;
+      this.reload();
+    });
+    row.addEntry(cancelButton);
+
+    return row;
+  }
+
+  private void renameEmote(String oldName, String newName) {
+    if (newName.equals(oldName)) {
+      this.renaming = null;
+      this.reload();
+      return;
+    }
+    // Chat finds emotes by splitting at spaces, and "|" separates the name from the id
+    if (newName.isEmpty() || newName.contains(" ") || newName.contains(EmoteProvider.EMOTE_SPLITTER)) {
+      this.setStatus(Component.translatable("emote.menu.status.invalidName", NamedTextColor.RED));
+      return;
+    }
+    if (!this.addon.renameEmote(oldName, newName)) {
+      this.setStatus(Component.translatable("emote.menu.status.nameTaken", NamedTextColor.RED, Component.text(newName)));
+      return;
+    }
+
+    this.renaming = null;
+    this.status = Component.translatable("emote.menu.status.renamed", NamedTextColor.GREEN,
+        Component.text(oldName), Component.text(newName));
+    this.reload();
+  }
+
+  // Links this Minecraft account to the website account whose profile page shows the code
+  private void initializeCodeRow(FlexibleContentWidget container) {
+    HorizontalListWidget codeRow = new HorizontalListWidget().addId("menu-code-row");
+
+    TextFieldWidget codeInput = new TextFieldWidget().addId("menu-code-input");
+    codeInput.placeholder(Component.translatable("emote.menu.website.codeInput"));
+    codeInput.maximalLength(9);
+    codeRow.addEntry(codeInput);
+
+    ButtonWidget codeButton = ButtonWidget.i18n("emote.menu.website.codeButton").addId("menu-code-button");
+    Runnable submit = () -> {
+      String code = codeInput.getText().trim();
+      if (code.isEmpty()) return;
+      codeButton.setEnabled(false);
+      WebsiteLogin.enterCode(code, this::setStatus, () -> {
+        codeButton.setEnabled(true);
+        codeInput.setText("");
+      });
+    };
+    codeButton.setActionListener(submit);
+    codeInput.submitHandler(text -> submit.run());
+    codeRow.addEntry(codeButton);
+
+    container.addContent(codeRow);
   }
 
   private void removeEmote(String name) {

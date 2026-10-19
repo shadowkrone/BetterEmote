@@ -1,6 +1,5 @@
 package xyz.holyb.betteremote.activity;
 
-import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.lss.property.annotation.AutoWidget;
 import net.labymod.api.client.gui.screen.Parent;
 import net.labymod.api.client.gui.screen.widget.SimpleWidget;
@@ -22,7 +21,7 @@ public class EmoteWidget extends SimpleWidget {
   public void initialize(Parent parent) {
     super.initialize(parent);
 
-    IconWidget iconWidget = new IconWidget(Icon.url(emote.getImageURL(1)));
+    IconWidget iconWidget = new IconWidget(emote.icon(1));
     iconWidget.addId("emote-icon");
     this.addChild(iconWidget);
 

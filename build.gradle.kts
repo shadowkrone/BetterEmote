@@ -6,7 +6,7 @@ plugins {
 val versions = providers.gradleProperty("net.labymod.minecraft-versions").get().split(";")
 
 group = "xyz.holyb"
-version = providers.environmentVariable("VERSION").getOrElse("1.2.0")
+version = providers.environmentVariable("VERSION").getOrElse("1.3.0")
 
 labyMod {
     // Must differ from EmoteChat's "xyz.holyb", otherwise both addons generate the same

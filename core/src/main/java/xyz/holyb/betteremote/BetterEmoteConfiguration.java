@@ -28,6 +28,10 @@ public class BetterEmoteConfiguration extends AddonConfig {
   @Exclude
   public Map<String, Emote> emotes = new HashMap<>();
 
+  // Lets the addon open the website logged in without asking Mojang again
+  @Exclude
+  public String websiteToken = "";
+
   @KeyBindSetting
   private final ConfigProperty<Key> menuKey = new ConfigProperty<>(Key.K);
 

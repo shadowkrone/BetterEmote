@@ -38,6 +38,8 @@ public class ChatMessageSendListener {
     String[] words = message.split(" ");
     for (int i = 0; i < words.length; i++) {
       String word = words[i].toLowerCase();
+      // A word like ":" starts and ends with the prefix but is too short to hold a name
+      if (word.length() < prefix.length() * 2) continue;
       if (!prefix.isEmpty() && !(word.startsWith(prefix) && word.endsWith(prefix))) continue;
 
       int finalI = i;

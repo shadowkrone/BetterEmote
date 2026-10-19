@@ -2,6 +2,9 @@ package xyz.holyb.betteremote.emote;
 
 import com.google.gson.annotations.SerializedName;
 import net.labymod.api.client.component.Component;
+import net.labymod.api.client.gui.icon.Icon;
+import xyz.holyb.betteremote.BetterEmoteAddon;
+import xyz.holyb.betteremote.gui.AnimatedEmote;
 import java.util.Objects;
 
 public class Emote {
@@ -19,6 +22,8 @@ public class Emote {
   public String getImageURL(Integer size) {
     return switch (this.provider.provider) {
       case "BTTV" -> String.format("https://cdn.betterttv.net/emote/%s/%dx", this.provider.id, size);
+      // Emotes uploaded on our website, served under the same scheme as BTTV
+      case "BE" -> String.format("%se/%s/%dx", EmoteProvider.SITE_URL, this.provider.id, size);
       default -> "";
     };
   }
@@ -27,11 +32,20 @@ public class Emote {
   public String getStaticImageURL(Integer size) {
     return switch (this.provider.provider) {
       case "BTTV" -> String.format("https://cdn.betterttv.net/emote/%s/%dx.png", this.provider.id, size);
+      case "BE" -> String.format("%se/%s/%dx.png", EmoteProvider.SITE_URL, this.provider.id, size);
       default -> "";
     };
   }
 
+  /** The icon chat and menus draw, animated when the emote is and animated emotes are turned on. */
+  public Icon icon(int size) {
+    return this.animated && BetterEmoteAddon.get().configuration().animatedEmotes().get()
+        ? AnimatedEmote.icon(this.getImageURL(size), this.getStaticImageURL(size))
+        : Icon.url(this.getStaticImageURL(size));
+  }
+
   public String name() {
+    // Legacy ids have no splitter, split() then returns the whole id
     return id.split(String.format("\\%s", EmoteProvider.EMOTE_SPLITTER))[0];
   }
 

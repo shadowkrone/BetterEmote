@@ -26,3 +26,12 @@ Emote {
   background-color: rgba(50, 50, 50, 100);
   filter: blur(5);
 }
+
+.chat-tab-container {
+  border-radius: 5;
+  background-color: rgba(30, 30, 30, 200);
+}
+
+.chat-tab-emote {
+  border-radius: 3;
+}

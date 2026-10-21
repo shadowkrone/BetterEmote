@@ -1,9 +1,7 @@
 package xyz.holyb.betteremote;
 
 import net.labymod.api.addon.AddonConfig;
-import net.labymod.api.client.gui.screen.activity.Activity;
 import net.labymod.api.client.gui.screen.key.Key;
-import net.labymod.api.client.gui.screen.widget.widgets.activity.settings.ActivitySettingWidget.ActivitySetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.KeybindWidget.KeyBindSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SliderWidget.SliderSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
@@ -13,8 +11,6 @@ import net.labymod.api.configuration.loader.annotation.Exclude;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.configuration.settings.annotation.SettingExperimental;
 import net.labymod.api.configuration.settings.annotation.SettingSection;
-import net.labymod.api.util.MethodOrder;
-import xyz.holyb.betteremote.activity.EmoteMenuActivity;
 import xyz.holyb.betteremote.emote.Emote;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,10 +23,6 @@ public class BetterEmoteConfiguration extends AddonConfig {
 
   @Exclude
   public Map<String, Emote> emotes = new HashMap<>();
-
-  // Lets the addon open the website logged in without asking Mojang again
-  @Exclude
-  public String websiteToken = "";
 
   @KeyBindSetting
   private final ConfigProperty<Key> menuKey = new ConfigProperty<>(Key.K);
@@ -66,12 +58,6 @@ public class BetterEmoteConfiguration extends AddonConfig {
   public ConfigProperty<Key> menuKey() { return this.menuKey; }
 
   public ConfigProperty<String> prefix() { return this.prefix; }
-
-  @MethodOrder(after = "enabled")
-  @ActivitySetting
-  public Activity openEmoteMenu(){
-    return new EmoteMenuActivity(true);
-  }
 
   public ConfigProperty<Boolean> showRoleTags() { return this.showRoleTags; }
 

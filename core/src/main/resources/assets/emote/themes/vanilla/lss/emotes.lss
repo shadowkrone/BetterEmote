@@ -36,63 +36,72 @@ Emote {
 }
 
 .menu-container {
-  width: 70%;
-  height: 85%;
+  width: 75%;
+  height: 88%;
   alignment-x: center;
   alignment-y: center;
-  padding: 8;
-  space-between-entries: 4;
-  background-color: rgba(20, 20, 20, 150);
+  padding: 10;
+  space-between-entries: 5;
+  background-color: rgba(18, 18, 24, 235);
 }
 
-.settings-container {
+.menu-header {
   width: 100%;
-  height: 100%;
-  padding: 4;
-  space-between-entries: 4;
-}
+  height: 16;
 
-.menu-title {
-  alignment-x: center;
-}
-
-.menu-search-row {
-  width: 100%;
-  height: 20;
-  space-between-entries: 3;
-
-  .menu-search-input {
-    width: 75%;
-  }
-  .menu-search-button {
-    width: 25%;
-    height: 20;
-  }
-}
-
-.menu-add-row {
-  width: 100%;
-  height: 20;
-  space-between-entries: 3;
-
-  .menu-preview {
-    width: 16;
+  .menu-brand {
+    width: fit-content;
     height: 16;
-    top: 2;
+    alignment-x: center;
+    top: 0;
+    space-between-entries: 4;
+
+    .menu-logo {
+      width: 16;
+      height: 16;
+    }
+    .menu-title {
+      top: 4;
+    }
   }
-  .menu-results {
-    width: 35%;
+  .menu-count {
+    right: 0;
+    top: 4;
   }
-  .menu-name-input {
-    width: 30%;
-  }
-  .menu-add-button {
-    width: calc(35% - 25);
+}
+
+.menu-search-input {
+  width: 100%;
+  height: 20;
+}
+
+.menu-tabs {
+  width: fit-content;
+  height: 20;
+  space-between-entries: 3;
+
+  .menu-tab {
+    width: 80;
     height: 20;
+  }
+}
+
+.menu-filter-row {
+  width: fit-content;
+  height: 16;
+  space-between-entries: 3;
+
+  .menu-filter-wide {
+    width: 70;
+    height: 16;
   }
 }
 
 .menu-status {
+  alignment-x: center;
+}
+
+.menu-hint {
   alignment-x: center;
 }
 
@@ -101,81 +110,61 @@ Emote {
   margin-top: 10;
 }
 
-.menu-code-row {
-  alignment-x: center;
-  width: 300;
-  height: 20;
-  space-between-entries: 4;
-
-  .menu-code-input {
-    width: 196;
-  }
-  .menu-code-button {
-    width: 100;
-    height: 20;
-  }
-}
-
-.menu-buttons {
-  alignment-x: center;
-  width: fit-content;
-  height: 20;
-  space-between-entries: 4;
-
-  .menu-website-button {
-    width: 100;
-    height: 20;
-  }
-  .menu-settings-button {
-    width: 100;
-    height: 20;
-  }
-  .menu-browse-button {
-    width: 100;
-    height: 20;
-  }
-  .menu-back-button {
-    width: 100;
-    height: 20;
-  }
-}
-
-.browse-search-row {
-  width: 100%;
-  height: 20;
-  space-between-entries: 3;
-
-  .browse-search-input {
-    width: 55%;
-  }
-  .browse-filter {
-    width: 25%;
-  }
-  .browse-search-button {
-    width: calc(20% - 6);
-    height: 20;
-  }
-}
-
-.browse-more-row {
-  width: 100%;
-  height: 20;
-
-  .browse-more-button {
-    alignment-x: center;
-    width: 100;
-    height: 20;
-  }
-}
-
 .menu-emotes-scroll {
   margin-top: 4;
 
   .menu-emotes-list {
     left: 0;
     top: 0;
+    width: calc(100% - 10);
     height: fit-content;
     space-between-entries: 2;
+
+    .menu-section-label {
+      margin-top: 4;
+      margin-bottom: 2;
+    }
+
+    .menu-card-row {
+      width: 100%;
+      height: 76;
+      space-between-entries: 4;
+    }
+
+    .menu-card {
+      width: 84;
+      height: 76;
+      background-color: rgba(255, 255, 255, 12);
+
+      .menu-card-emote {
+        left: 26;
+        top: 4;
+        width: 32;
+        height: 32;
+      }
+      .menu-card-name {
+        alignment-x: center;
+        top: 40;
+      }
+      .menu-card-save {
+        left: 4;
+        bottom: 4;
+        width: 76;
+        height: 18;
+      }
+    }
+
+    .menu-more-row {
+      width: 100%;
+      height: 20;
+      margin-top: 4;
+
+      .menu-more-button {
+        alignment-x: center;
+        width: 100;
+        height: 20;
+      }
+    }
 
     .menu-emote-row {
       width: 100%;
@@ -205,21 +194,6 @@ Emote {
         top: 1;
       }
       .menu-rename-cancel {
-        width: 50;
-        height: 22;
-        top: 1;
-      }
-    }
-
-    .browse-emote-row {
-      width: 100%;
-      height: 24;
-      space-between-entries: 3;
-
-      Emote {
-        width: calc(100% - 53);
-      }
-      .browse-save-button {
         width: 50;
         height: 22;
         top: 1;

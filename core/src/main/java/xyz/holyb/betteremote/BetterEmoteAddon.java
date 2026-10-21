@@ -11,7 +11,6 @@ import net.labymod.api.client.entity.player.tag.PositionType;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.screen.widget.widgets.activity.chat.ChatButtonWidget;
 import net.labymod.api.client.resources.ResourceLocation;
-import net.labymod.api.configuration.settings.Setting;
 import net.labymod.api.models.addon.annotation.AddonMain;
 import net.labymod.api.util.concurrent.task.Task;
 import xyz.holyb.betteremote.activity.EmoteChatTabActivity;
@@ -37,6 +36,7 @@ import java.util.function.Consumer;
 @AddonMain
 public class BetterEmoteAddon extends LabyAddon<BetterEmoteConfiguration> {
   private static BetterEmoteAddon instance;
+  private boolean onlineFeaturesStarted;
 
   public BetterEmoteAddon(){
     instance = this;
@@ -53,7 +53,11 @@ public class BetterEmoteAddon extends LabyAddon<BetterEmoteConfiguration> {
 
   @Override
   protected void enable() {
-    importEmoteChatEmotes();
+    // Nothing is downloaded or imported while the addon is switched off, turning it on starts it
+    if (this.configuration().enabled().get()) this.startOnlineFeatures();
+    this.configuration().enabled().addChangeListener((Boolean enabled) -> {
+      if (enabled) this.startOnlineFeatures();
+    });
 
     // Saved emotes are known up front, so they can be shown without a lookup
     for (Emote emote : this.configuration().getEmotes().values()) {
@@ -71,28 +75,27 @@ public class BetterEmoteAddon extends LabyAddon<BetterEmoteConfiguration> {
 
     // Button next to Autotext, Symbols and Name History in the chat input
     ChatButtonWidget chatButton = ChatButtonWidget.icon("emotes",
-        Icon.texture(ResourceLocation.create("emote", "textures/icon.png")), EmoteChatTabActivity::new);
+        Icon.texture(ResourceLocation.create("emote", "textures/icon.png")), EmoteChatTabActivity::new)
+        .property(this.configuration().enabled());
     chatButton.setHoverComponent(Component.translatable("emote.chatTab.button"));
     this.labyAPI().chatProvider().chatInputService().register(chatButton);
 
-    RoleRegistry.load();
     this.labyAPI().tagRegistry().register("betteremote_role", PositionType.ABOVE_NAME, new RoleTag(this));
 
     this.logger().info("Enabled BetterEmote v" + this.addonInfo().getVersion());
   }
 
+  /** The EmoteChat import and the role list, once per game start and only while the addon is on. */
+  private void startOnlineFeatures() {
+    if (this.onlineFeaturesStarted) return;
+    this.onlineFeaturesStarted = true;
+    importEmoteChatEmotes();
+    RoleRegistry.load();
+  }
+
   @Override
   protected Class<BetterEmoteConfiguration> configurationClass() {
     return BetterEmoteConfiguration.class;
-  }
-
-  /**
-   * Opens the BetterEmote page in the LabyMod settings.
-   */
-  public void openSettings() {
-    // registerSettingCategory() adds the category to the core registry under the addon namespace
-    Setting settings = this.labyAPI().coreSettingRegistry().findSetting(this.addonInfo().getNamespace());
-    if (Objects.nonNull(settings)) this.labyAPI().showSetting(settings);
   }
 
   /**
@@ -127,12 +130,16 @@ public class BetterEmoteAddon extends LabyAddon<BetterEmoteConfiguration> {
     String saved = this.savedName(emote);
     if (Objects.nonNull(saved)) return saved;
 
-    String base = emote.name();
-    String name = base;
-    for (int i = 2; this.hasEmoteNamed(name); i++) name = base + i;
-
+    String name = this.uniqueName(emote.name());
     this.configuration().getEmotes().put(name, emote);
     this.saveConfiguration();
+    return name;
+  }
+
+  /** The name, with a number added when the player already has an emote called that, e.g. "catJAM2". */
+  public String uniqueName(String base) {
+    String name = base;
+    for (int i = 2; this.hasEmoteNamed(name); i++) name = base + i;
     return name;
   }
 

@@ -28,58 +28,56 @@
       "openMenu": "Add or remove emotes"
     },
     "menu": {
-      "title": "Your Emotes",
+      "title": "BetterEmote",
       "empty": "You have no saved emotes yet. Search for one above to add it.",
-      "settings": "Settings",
-      "browse": "Browse emotes",
+      "savedCount": "%s saved",
+      "hint": {
+        "search": "Press Save on the emotes you want  •  Enter searches, an empty search shows new emotes  •  Esc closes",
+        "saved": "These are the emotes in your chat menu  •  Esc closes",
+        "betteremote": "Emotes uploaded on betteremote.net  •  Press Save to add them  •  Esc closes"
+      },
+      "section": {
+        "results": "Results for \"%s\" (%s)",
+        "random": "Popular on BetterTTV"
+      },
       "rename": {
         "button": "Rename",
         "save": "Save",
         "cancel": "Cancel"
       },
       "website": {
-        "button": "Open website",
-        "loggingIn": "Logging in on the website...",
-        "opened": "Opened the website in your browser.",
-        "notPremium": "You need a Minecraft account to log in on the website.",
-        "mojang": "Mojang could not confirm your account. Try again in a moment.",
-        "unreachable": "The website is unreachable right now. Try again later.",
-        "codeInput": "Website code, e.g. K7F-2QX",
-        "codeButton": "Link",
-        "checkingCode": "Checking the code...",
-        "codeApproved": "Your Minecraft account is now linked on the website.",
-        "invalidCode": "That code is wrong or has expired. Get a new one on the website.",
-        "minecraftTaken": "Your Minecraft account is already linked to another Discord account on the website."
+        "unreachable": "The website is unreachable right now. Try again later."
       },
       "add": {
-        "searchInput": "Search keyword or paste BTTV link...",
+        "searchInput": "Search BetterTTV emotes or paste a link, then press Enter...",
         "searchButton": "Search",
-        "nameInput": "Name..."
+        "save": "Save",
+        "saving": "Saving...",
+        "saved": "Saved"
       },
       "status": {
         "tooShort": "Type at least 3 characters to search.",
         "searching": "Searching...",
         "noResults": "No emotes found.",
         "found": "Found %s emotes.",
-        "noSelection": "Search for an emote first.",
         "invalidName": "The name can't be empty or contain spaces or \"|\".",
-        "adding": "Adding %s...",
         "added": "Added %s!",
         "removed": "Removed %s.",
         "renamed": "Renamed %s to %s.",
         "nameTaken": "You already have an emote called %s.",
         "rejected": "%s was rejected by the emote server. Please try another emote."
+      },
+      "tab": {
+        "search": "Search",
+        "saved": "Saved",
+        "betteremote": "BetterEmote"
       }
     },
     "browse": {
-      "title": "Emotes from the website",
       "searchInput": "Search emotes...",
       "empty": "No emotes found.",
       "loading": "Loading emotes...",
       "loadMore": "Load more",
-      "save": "Save",
-      "saved": "Saved",
-      "back": "Back",
       "official": "Official",
       "community": "Community",
       "byOwner": "Uploaded by %s",
@@ -93,9 +91,6 @@
       "name": "BetterEmote",
       "enabled": {
         "name": "Enabled"
-      },
-      "openEmoteMenu": {
-        "name": "Emote Menu"
       },
       "menuKey": {
         "name": "Emote Menu Key",

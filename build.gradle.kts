@@ -29,7 +29,7 @@ labyMod {
         displayName = "BetterEmote"
         author = "ShadowKrone"
         description = "Animated BetterTTV emotes in your Minecraft chat. - discord - discord.gg/FxWsjMRZrD"
-        minecraftVersion = "1.19.4<*"
+        minecraftVersion = "1.8.9<*"
         version = rootProject.version.toString()
     }
 }
